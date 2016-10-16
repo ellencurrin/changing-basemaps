@@ -31,6 +31,7 @@
 </head>
 
 <body>
+<div id="myAlert"> </div>
 
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -63,9 +64,25 @@
 
 
 <script>
-$( document ).ready(function() {
+$(document ).ready(function() {
     console.log( "ready!" );
-    $('#myModal').modal('show');
+    if (!window.WebGLRenderingContext) {
+        // the browser doesn't even know what WebGL is
+        //alert("This page requires WebGL. Learn more at http://get.webgl.org");
+        //window.location = "http://get.webgl.org";
+        document.getElementById("myAlert").innerHTML='<div class="alert alert-danger"><h4>Viewing this map requires WebGL.</h4> <p>Your browser does not support WebGL. To learn more, visit  <a href="http://get.webgl.org">hhttp://get.webgl.org</a>.</p> </div>';
+    } else {
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("webgl");
+        if (!ctx) {
+          // browser supports WebGL but initialization failed.
+          document.getElementById("myAlert").innerHTML='<div class="alert alert-danger"><h4>Viewing this map requires WebGL.</h4> <p>Your browser supports WebGL, but initialization failed. To learn more, visit <a href="http://get.webgl.org/troubleshooting">http://get.webgl.org/troubleshooting</a>.</p> </div>';
+          //alert("This page requires WebGL. Learn more at http://get.webgl.org/troubleshooting")
+          //window.location = "http://get.webgl.org/troubleshooting";
+        } else {
+            $('#myModal').modal('show');
+        }
+    }
     drawMap('mapbox://styles/mapbox/streets-v9', '#cb4b16', 'Streets');
 });
 
@@ -102,6 +119,8 @@ function drawMap(basemap, color, name) {
 
 }
 </script>
+
+<canvas id="myCanvas"></canvas>
 
 </body>
 </html>
