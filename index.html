@@ -70,7 +70,6 @@ $( document ).ready(function() {
 });
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZWxjdXJyIiwiYSI6IkZMekZlUEEifQ.vsXDy4z_bxRXyhSIvBXc2A';
-var count = 0;
 var myCenter = [-74.50, 40];
 var myZoom = 10;
 var map;
@@ -80,7 +79,7 @@ var map;
 
 function drawMap(basemap, color, name) {
     //set center and zoom variables
-    if (count > 0) {
+    if (map != undefined) {
         console.log("button clicked")
         myCenter = map.getCenter();
         myZoom = map.getZoom();
@@ -93,7 +92,6 @@ function drawMap(basemap, color, name) {
         center: myCenter, // starting position
         zoom: myZoom // starting zoom
     });
-    count = count+1;
 
     //make html + css changes
     document.getElementById("title").style.color = color;
